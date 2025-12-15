@@ -33,6 +33,10 @@ Exécuter des commandes depuis un fichier :
 
 ./hsh filename
 
+Flowchart
+
+![Flowchart du Simple Shell](assets/FlowchartSimpleShell.png)
+
 Auteurs
 
 Lucas Podevin

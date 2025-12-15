@@ -1,111 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
+#include "shell.h"
 #include <sys/wait.h>
 /**
- * get_line - Affiche le prompt puis lit une ligne depuis l'entrée standard.
- * @line: pointeur vers le buffer qui contiendra la ligne lue
- * @len: taille du buffer
- *
- * Return: le nombre de caractères lus ou -1 en cas d'erreur ou EOF
- */
-ssize_t get_line(char **line, size_t *len)
-{
-	if (isatty(STDIN_FILENO))
-		printf("#usr$ ");
-
-	return (getline(line, len, stdin));
-}
-
-char *del_space(char *str)
-{
-	char *end;
-
-	while (*str == ' ' || *str == '\t')
-		str++;
-
-	if (*str == '\0')
-		return (str);
-
-	end = str;
-	while (*end)
-		end++;
-
-	end--;
-
-	while (end > str && (*end == ' ' || *end == '\t'))
-	{
-		*end = '\0';
-		end--;
-	}
-	return (str);
-}
-
-char **split_line(char *line)
-{
-	char *token;
-	char **av = NULL;
-	size_t count = 0;
-	char *line_copy = strdup(line);
-
-	if (!line_copy)
-	return (NULL);
-
-	token = strtok(line_copy, " \t");
-	while (token)
-	{
-		av = realloc(av, sizeof(char *) * (count + 2));
-		av[count] = strdup(token);
-		count++;
-		token = strtok(NULL, " \t");
-	}
-	if (av)
-	av[count] = NULL;
-
-	free(line_copy);
-	return (av);
-}
-/**
- * exe_cde - Crée un processus enfant et exécute la commande donnée.
- * @line: commande saisie par l'utilisateur
- *
- * Cette fonction lance un fork, exécute la commande dans l'enfant
- * et attend la fin du processus dans le parent.
- */
-void exe_cde(char *line, char **envp)
-{
-	pid_t child = fork();
-	size_t i;
-
-		if (child < 0)
-		{
-			perror("fork");
-			return;
-		}
-		if (child == 0)
-		{
-			char **av = split_line(line);
-
-			if (!av)
-			{
-				perror("malloc");
-				exit(EXIT_FAILURE);
-			}
-			if (execve(av[0], av, envp) == -1)
-			{
-				perror("./shell");
-				for (i = 0; av[i]; i++)
-					free(av[i]);
-				free(av);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		waitpid(child, NULL, 0);
-}
-/**
  * main - Point d'entrée du programme.
+ * @ac: nombre d'arguments passés au programme (non utilisé)
+ * @av: tableau des arguments passés au programme (non utilisé)
+ * @envp: tableau des variables d'environnement
  *
  * Cette fonction affiche un prompt, lit les commandes de l'utilisateur,
  * puis les exécute en boucle jusqu'à la fin de l'entrée standard.
@@ -115,27 +14,27 @@ void exe_cde(char *line, char **envp)
 int main(int ac, char **av, char **envp)
 {
 	char *cmd, *line = NULL;	/*contient la ligne entrée par l'U*/
-	size_t len = 0;		/*taille pour le buffer*/
-	ssize_t nread;		/*nombre de caractères lus*/
+	size_t len = 0;				/*taille pour le buffer*/
+	ssize_t read;				/*nombre de caractères lus*/
 	(void)ac;
 	(void)av;
 
 	while (1)
 	{
-		nread = get_line(&line, &len);
-		if (nread == -1)
+		read = get_line(&line, &len);
+		if (read == -1)
 		{
 			if (isatty(STDIN_FILENO))
 			printf("\n");
 
 			break;
 		}
-		if (line[nread - 1] == '\n')
-		line[nread - 1] = '\0';
+		if (line[read - 1] == '\n')
+			line[read - 1] = '\0';
 		cmd = del_space(line);
 		if (*cmd == '\0')
-		continue;
-		exe_cde(cmd, envp);
+			continue;
+		exe_cmd(cmd, envp);
 	}
 	free(line);
 	return (0);
