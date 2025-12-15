@@ -16,6 +16,30 @@ ssize_t get_line(char **line, size_t *len)
 
 	return (getline(line, len, stdin));
 }
+
+char *del_space(char *str)
+{
+	char *end;
+
+	while (*str == ' ' || *str == '\t')
+		str++;
+
+	if (*str == '\0')
+		return (str);
+
+	end = str;
+	while (*end)
+		end++;
+
+	end--;
+
+	while (end > str && (*end == ' ' || *end == '\t'))
+	{
+		*end = '\0';
+		end--;
+	}
+	return (str);
+}
 /**
  * exe_cde - Crée un processus enfant et exécute la commande donnée.
  * @line: commande saisie par l'utilisateur
@@ -57,7 +81,7 @@ void exe_cde(char *line)
  */
 int main(void)
 {
-	char *line = NULL;	/*contient la ligne entrée par l'U*/
+	char *cmd, *line = NULL;	/*contient la ligne entrée par l'U*/
 	size_t len = 0;		/*taille pour le buffer*/
 	ssize_t nread;		/*nombre de caractères lus*/
 
@@ -73,11 +97,10 @@ int main(void)
 		}
 		if (line[nread - 1] == '\n')
 		line[nread - 1] = '\0';
-
-		if (line[0] == '\0')
+		cmd = del_space(line);
+		if (*cmd == '\0')
 		continue;
-		exe_cde(line);
-		/*system(line);*/
+		exe_cde(cmd);
 	}
 	free(line);
 	return (0);
