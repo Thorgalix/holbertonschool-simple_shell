@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/wait.h>
 /**
  * get_line - Affiche le prompt puis lit une ligne depuis l'entrée standard.
@@ -40,6 +41,31 @@ char *del_space(char *str)
 	}
 	return (str);
 }
+
+char **split_line(char *line)
+{
+	char *token;
+	char **av = NULL;
+	size_t count = 0;
+	char *line_copy = strdup(line);
+
+	if (!line_copy)
+	return (NULL);
+
+	token = strtok(line_copy, " \t");
+	while (token)
+	{
+		av = realloc(av, sizeof(char *) * (count + 2));
+		av[count] = strdup(token);
+		count++;
+		token = strtok(NULL, " \t");
+	}
+	if (av)
+	av[count] = NULL;
+
+	free(line_copy);
+	return (av);
+}
 /**
  * exe_cde - Crée un processus enfant et exécute la commande donnée.
  * @line: commande saisie par l'utilisateur
@@ -47,9 +73,10 @@ char *del_space(char *str)
  * Cette fonction lance un fork, exécute la commande dans l'enfant
  * et attend la fin du processus dans le parent.
  */
-void exe_cde(char *line)
+void exe_cde(char *line, char **envp)
 {
 	pid_t child = fork();
+	size_t i;
 
 		if (child < 0)
 		{
@@ -58,13 +85,19 @@ void exe_cde(char *line)
 		}
 		if (child == 0)
 		{
-			char *av[2];
+			char **av = split_line(line);
 
-			av[0] = line;
-			av[1] = NULL;
-			if (execve(line, av, NULL) == -1)
+			if (!av)
+			{
+				perror("malloc");
+				exit(EXIT_FAILURE);
+			}
+			if (execve(av[0], av, envp) == -1)
 			{
 				perror("./shell");
+				for (i = 0; av[i]; i++)
+					free(av[i]);
+				free(av);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -79,11 +112,13 @@ void exe_cde(char *line)
  *
  * Return: 0 en cas de succès
  */
-int main(void)
+int main(int ac, char **av, char **envp)
 {
 	char *cmd, *line = NULL;	/*contient la ligne entrée par l'U*/
 	size_t len = 0;		/*taille pour le buffer*/
 	ssize_t nread;		/*nombre de caractères lus*/
+	(void)ac;
+	(void)av;
 
 	while (1)
 	{
@@ -100,7 +135,7 @@ int main(void)
 		cmd = del_space(line);
 		if (*cmd == '\0')
 		continue;
-		exe_cde(cmd);
+		exe_cde(cmd, envp);
 	}
 	free(line);
 	return (0);
