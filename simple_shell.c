@@ -66,7 +66,9 @@ int main(void)
 		nread = get_line(&line, &len);
 		if (nread == -1)
 		{
+			if (isatty(STDIN_FILENO))
 			printf("\n");
+
 			break;
 		}
 		if (line[nread - 1] == '\n')
