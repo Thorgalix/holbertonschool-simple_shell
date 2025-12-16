@@ -8,16 +8,17 @@
  * Cette fonction lance un fork, exécute la commande dans l'enfant
  * et attend la fin du processus dans le parent.
  */
-void exe_cmd(char *line, char **envp)
+int exe_cmd(char *line, char **envp)
 {
 	pid_t child = fork();
 	size_t i;
 	char *cmd_path;
+	int status;
 
 	if (child < 0)
 	{
 		perror("fork");
-		return;
+		return (1);
 	}
 	if (child == 0)
 	{
@@ -44,5 +45,6 @@ void exe_cmd(char *line, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	else
-	waitpid(child, NULL, 0);
+	waitpid(child, &status, 0);
+	return (status);
 }

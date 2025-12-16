@@ -11,7 +11,7 @@
 ssize_t get_line(char **line, size_t *len);
 char *del_space(char *str);
 char **split_line(char *line);
-void exe_cmd(char *line, char **envp);
+int exe_cmd(char *line, char **envp);
 char *find_in_path(char *cmd);
 
 #endif
