@@ -4,12 +4,13 @@
  * exe_cmd - Crée un processus enfant et exécute la commande donnée.
  * @line: commande saisie par l'utilisateur
  * @envp: tableau des variables d'environnement
+ * @line_buf: buffer alloué par getline à libérer dans le processus enfant
  *
  * Cette fonction lance un fork, exécute la commande dans l'enfant
  * et attend la fin du processus dans le parent.
  * Return: 1
  */
-int exe_cmd(char *line, char **envp)
+int exe_cmd(char *line, char **envp, char *line_buf)
 {
 	pid_t child = fork();
 	size_t i;
@@ -27,7 +28,10 @@ int exe_cmd(char *line, char **envp)
 		char **av = split_line(line);
 
 		if (!av || !av[0])
+		{
+			free(line_buf);
 			_exit(0);
+		}
 
 		if (strcmp(av[0], "exit") == 0)
 			handle_exit(av);
@@ -39,6 +43,7 @@ int exe_cmd(char *line, char **envp)
 			for (i = 0; av[i]; i++)
 				free(av[i]);
 			free(av);
+			free(line_buf);
 			_exit(ret);
 		}
 		cmd_path = find_in_path(av[0]);
@@ -48,6 +53,7 @@ int exe_cmd(char *line, char **envp)
 			for (i = 0; av[i]; i++)
 				free(av[i]);
 			free(av);
+			free(line_buf);
 			_exit(127);
 		}
 		execve(cmd_path, av, envp);
@@ -55,6 +61,7 @@ int exe_cmd(char *line, char **envp)
 		for (i = 0; av[i]; i++)
 			free(av[i]);
 		free(av);
+		free(line_buf);
 		_exit(126);
 	}
 	waitpid(child, &status, 0);

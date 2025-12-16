@@ -46,7 +46,7 @@ int main(int ac, char **av, char **envp)
 			handle_exit(av);
 		}
 
-		(void)exe_cmd(cmd, envp);
+		(void)exe_cmd(cmd, envp, line);
 	}
 
 	free(line);
