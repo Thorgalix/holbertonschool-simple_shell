@@ -1,13 +1,15 @@
 #include "shell.h"
 /**
 */
-int builtin_env(char **environ)
+int builtin_env(char **envp)
 {
 int i = 0;
-while (environ[i])
+if (!envp)
+return (0);
+while (envp[i])
 {
-printf("%s\n", environ[i]);
+printf("%s\n", envp[i]);
 i++;
 }
-return (1);
+return (0);
 }

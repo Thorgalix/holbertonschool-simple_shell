@@ -34,8 +34,7 @@ int exe_cmd(char *line, char **envp)
 
 		if (strcmp(av[0], "env") == 0)
 		{
-		builtin_env(envp);
-		return (1);
+		return (builtin_env(envp));
 		}
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
