@@ -33,7 +33,7 @@ int exe_cmd(char *line, char **envp)
 
 		if (strcmp(av[0], "env") == 0)
 		{
-		for (status = 0; envp[i] == 0; i++)
+		for (i = 0; envp[i] != NULL; i++)
 		{
 		printf("%s\n", envp[i]);
 		}
