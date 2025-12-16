@@ -32,9 +32,13 @@ int exe_cmd(char *line, char **envp)
 			handle_exit(av);
 
 		if (strcmp(av[0], "env") == 0)
-		for (status = 0; envp[status] != NULL; status++)
-		printf("\n%s", envp[status]);
-
+		{
+		for (status = 0; envp[i] == 0; i++)
+		{
+		printf("%s\n", envp[i]);
+		}
+		return (0);
+		}
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
 		{
