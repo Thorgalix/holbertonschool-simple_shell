@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
 #include <sys/wait.h>
 
 
@@ -13,5 +14,6 @@ char *del_space(char *str);
 char **split_line(char *line);
 int exe_cmd(char *line, char **envp);
 char *find_in_path(char *cmd);
+void handle_exit(char **av);
 
 #endif

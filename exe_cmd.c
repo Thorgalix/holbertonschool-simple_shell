@@ -28,6 +28,9 @@ int exe_cmd(char *line, char **envp)
 		if (!av || !av[0])
 			_exit(0);
 
+		if (strcmp(av[0], "exit") == 0)
+			handle_exit(av);
+
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
 		{
@@ -38,7 +41,6 @@ int exe_cmd(char *line, char **envp)
 			_exit(127);
 		}
 		execve(cmd_path, av, envp);
-
 		free(cmd_path);
 		for (i = 0; av[i]; i++)
 			free(av[i]);
