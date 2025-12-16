@@ -21,10 +21,8 @@ int main(int ac, char **av, char **envp)
 	ssize_t read;
 	char *cmd;
 	int status = 0;
-	
 
 	(void)ac;
-	(void)av;
 
 	while (1)
 	{
@@ -42,13 +40,12 @@ int main(int ac, char **av, char **envp)
 		if (*cmd == '\0')
 			continue;
 
-		/* Si l'utilisateur tape "exit", on quitte directement */
-		if (strcmp(cmd, "exit") == 0)
-			break;
-        
-	
+		if (strncmp(cmd, "exit", 4) == 0)
+		{
+			av = split_line(cmd);
+			handle_exit(av);
+		}
 
-		/* Sinon, on exécute la commande dans un fork */
 		status = exe_cmd(cmd, envp);
 	}
 
