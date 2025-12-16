@@ -23,11 +23,19 @@ void handle_exit(char **av)
             if (!isdigit(arg[i]))
             {
                 fprintf(stderr, "%s: exit: %s: numeric argument required\n", SHELL_NAME, arg);
+                /* Free memory before exit */
+                for (i = 0; av[i]; i++)
+                    free(av[i]);
+                free(av);
                 _exit(2); /* code d’erreur pour argument invalide */
             }
         }
         status = atoi(av[1]);
     }
 
+    /* Free memory before exit */
+    for (i = 0; av[i]; i++)
+        free(av[i]);
+    free(av);
     _exit(status);
 }
