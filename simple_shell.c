@@ -16,6 +16,7 @@ int main(int ac, char **av, char **envp)
 	char *cmd, *line = NULL;	/*contient la ligne entrée par l'U*/
 	size_t len = 0;				/*taille pour le buffer*/
 	ssize_t read;				/*nombre de caractères lus*/
+	int status = 0;
 	(void)ac;
 	(void)av;
 
@@ -34,8 +35,8 @@ int main(int ac, char **av, char **envp)
 		cmd = del_space(line);
 		if (*cmd == '\0')
 			continue;
-		exe_cmd(cmd, envp);
+		status = exe_cmd(cmd, envp);
 	}
 	free(line);
-	return (0);
+	return (status);
 }

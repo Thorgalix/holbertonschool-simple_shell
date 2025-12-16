@@ -7,6 +7,7 @@
  *
  * Cette fonction lance un fork, exécute la commande dans l'enfant
  * et attend la fin du processus dans le parent.
+ * Return: 1
  */
 int exe_cmd(char *line, char **envp)
 {
@@ -37,7 +38,7 @@ int exe_cmd(char *line, char **envp)
 			exit(127);
 		}
 		execve(cmd_path, av, envp);
-		perror("./shell");
+		perror(SHELL_NAME);
 		free(cmd_path);
 		for (i = 0; av[i]; i++)
 			free(av[i]);
@@ -46,5 +47,5 @@ int exe_cmd(char *line, char **envp)
 	}
 	else
 	waitpid(child, &status, 0);
-	return (status);
+	return (status >> 8);
 }
