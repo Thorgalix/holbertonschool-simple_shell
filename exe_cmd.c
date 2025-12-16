@@ -26,7 +26,7 @@ int exe_cmd(char *line, char **envp)
 		char **av = split_line(line);
 
 		if (!av || !av[0])
-			exit(EXIT_FAILURE);
+			_exit(EXIT_FAILURE);
 
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
@@ -35,7 +35,7 @@ int exe_cmd(char *line, char **envp)
 			for (i = 0; av[i]; i++)
 				free(av[i]);
 			free(av);
-			exit(127);
+			_exit(127);
 		}
 		execve(cmd_path, av, envp);
 		perror(SHELL_NAME);
@@ -43,7 +43,7 @@ int exe_cmd(char *line, char **envp)
 		for (i = 0; av[i]; i++)
 			free(av[i]);
 		free(av);
-		exit(EXIT_FAILURE);
+		_exit(EXIT_FAILURE);
 	}
 	else
 	waitpid(child, &status, 0);
