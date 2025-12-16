@@ -31,6 +31,7 @@ int exe_cmd(char *line, char **envp)
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
 		{
+			fprintf(stderr, "%s: %d: %s: not found\n", SHELL_NAME, 1, av[0]);
 			for (i = 0; av[i]; i++)
 				free(av[i]);
 			free(av);
