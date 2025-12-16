@@ -19,7 +19,9 @@ char *find_in_path(char *cmd)
 	}
 	path = getenv("PATH");
 	if (!path || !*path)
-		return (NULL);
+		if (access(cmd, X_OK) == 0)
+			return (strdup(cmd));
+	return (NULL);
 
 	copy = strdup(path);
 	if (!copy)
