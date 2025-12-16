@@ -44,6 +44,11 @@ int main(int ac, char **av, char **envp)
 		/* Si l'utilisateur tape "exit", on quitte directement */
 		if (strcmp(cmd, "exit") == 0)
 			break;
+         
+        /* Si l'utilisateur tape "exit", on affiche l'environemment directement */
+		if (strcmp(cmd, "env") == 0)
+		for (status = 0; envp[status] != NULL; status++)
+		printf("\n%s", envp[status]);
 
 		/* Sinon, on exécute la commande dans un fork */
 		status = exe_cmd(cmd, envp);
