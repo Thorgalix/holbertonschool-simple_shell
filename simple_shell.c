@@ -21,6 +21,7 @@ int main(int ac, char **av, char **envp)
 	ssize_t read;
 	char *cmd;
 	int status = 0;
+	
 
 	(void)ac;
 	(void)av;
@@ -44,8 +45,14 @@ int main(int ac, char **av, char **envp)
 		/* Si l'utilisateur tape "exit", on quitte directement */
 		if (strcmp(cmd, "exit") == 0)
 			break;
-         
-    
+        
+		/* Si l'utilisateur tape "env", on affiche l'environnement du système*/
+        if (execve("/usr/bin/env", av, envp) == -1)
+		{
+        perror("execve");
+        return 1;
+        }
+
 
 		/* Sinon, on exécute la commande dans un fork */
 		status = exe_cmd(cmd, envp);
