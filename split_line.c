@@ -7,25 +7,49 @@
  */
 char **split_line(char *line)
 {
-	char *token;
-	char **av = NULL;
-	size_t count = 0;
-	char *line_copy = strdup(line);
+    char *token, *line_copy;
+    char **av = NULL;
+    size_t i, count = 0;
 
-	if (!line_copy)
-	return (NULL);
+    if (!line)
+        return NULL;
 
-	token = strtok(line_copy, " \t");
-	while (token)
-	{
-		av = realloc(av, sizeof(char *) * (count + 2));
-		av[count] = strdup(token);
-		count++;
-		token = strtok(NULL, " \t");
-	}
-	if (av)
-	av[count] = NULL;
+    line_copy = strdup(line);
+    if (!line_copy)
+        return NULL;
 
-	free(line_copy);
-	return (av);
+    token = strtok(line_copy, " \t");
+    while (token)
+    {
+        char **tmp = realloc(av, sizeof(char *) * (count + 2));
+        if (!tmp)
+        {
+            for (i = 0; i < count; i++)
+                free(av[i]);
+            free(av);
+            free(line_copy);
+            return NULL;
+        }
+        av = tmp;
+
+        av[count] = strdup(token);
+        if (!av[count])
+        {
+            for (i = 0; i < count; i++)
+                free(av[i]);
+            free(av);
+            free(line_copy);
+            return NULL;
+        }
+
+        count++;
+        token = strtok(NULL, " \t");
+    }
+
+    if (av)
+        av[count] = NULL;
+
+    free(line_copy);
+    return av;
 }
+

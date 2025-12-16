@@ -26,26 +26,26 @@ int exe_cmd(char *line, char **envp)
 		char **av = split_line(line);
 
 		if (!av || !av[0])
-			_exit(EXIT_FAILURE);
+			_exit(0);
 
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
 		{
-			fprintf(stderr, "%s: 1: %s: not found\n", SHELL_NAME, av[0]);
 			for (i = 0; av[i]; i++)
 				free(av[i]);
 			free(av);
 			_exit(127);
 		}
 		execve(cmd_path, av, envp);
-		perror(SHELL_NAME);
+
 		free(cmd_path);
 		for (i = 0; av[i]; i++)
 			free(av[i]);
 		free(av);
-		_exit(EXIT_FAILURE);
+		_exit(126);
 	}
-	else
 	waitpid(child, &status, 0);
-	return (status >> 8);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }

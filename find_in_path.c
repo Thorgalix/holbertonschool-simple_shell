@@ -8,15 +8,17 @@ char *find_in_path(char *cmd)
 {
 	char *path, *copy, *token, *full;
 
+	if (!cmd || !*cmd)
+		return (NULL);
+
 	if (strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
 			return (strdup(cmd));
-
 		return (NULL);
 	}
 	path = getenv("PATH");
-	if (!path)
+	if (!path || !*path)
 		return (NULL);
 
 	copy = strdup(path);
