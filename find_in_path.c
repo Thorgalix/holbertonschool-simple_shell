@@ -10,7 +10,6 @@ char *find_in_path(char *cmd)
 
 	if (!cmd || !*cmd)
 		return (NULL);
-
 	if (strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
@@ -19,14 +18,14 @@ char *find_in_path(char *cmd)
 	}
 	path = getenv("PATH");
 	if (!path || !*path)
+	{
 		if (access(cmd, X_OK) == 0)
 			return (strdup(cmd));
-	return (NULL);
-
+		return (NULL);
+	}
 	copy = strdup(path);
 	if (!copy)
 		return (NULL);
-
 	token = strtok(copy, ":");
 	while (token)
 	{
