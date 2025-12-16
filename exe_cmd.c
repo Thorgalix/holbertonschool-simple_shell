@@ -9,64 +9,39 @@
  */
 void exe_cmd(char *line, char **envp)
 {
-    pid_t child = fork();
-    size_t i;
-    char *cmd_path;
+	pid_t child = fork();
+	size_t i;
+	char *cmd_path;
 
-        if (child < 0)
-        {
-            perror("fork");
-            return;
-        }
-        if (child == 0)
-        {
-            char **av = split_line(line);
+	if (child < 0)
+	{
+		perror("fork");
+		return;
+	}
+	if (child == 0)
+	{
+		char **av = split_line(line);
 
-<<<<<<< HEAD
-			if (!av || !av[0])
-				exit(EXIT_FAILURE);
+		if (!av || !av[0])
+			exit(EXIT_FAILURE);
 
-			cmd_path = find_in_path(av[0]);
-			if (!cmd_path)
-			{
-				fprintf(stderr, "./shell: %s: not found\n", av[0]);
-				for (i = 0; av[i]; i++)
-					free(av[i]);
-				free(av);
-				exit(127);
-			}
-			execve(cmd_path, av, envp);
-			perror("./shell");
-			free(cmd_path);
+		cmd_path = find_in_path(av[0]);
+		if (!cmd_path)
+		{
+			fprintf(stderr, "./shell: %s: not found\n", av[0]);
 			for (i = 0; av[i]; i++)
 				free(av[i]);
 			free(av);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
-		else
-		waitpid(child, NULL, 0);
-=======
-            if (!av || !av[0])
-                exit(EXIT_FAILURE);
-
-            cmd_path = find_in_path(av[0]);
-            if (!cmd_path)
-            {
-                fprintf(stderr, "./shell: %s: not found\n", av[0]);
-                for (i = 0; av[i]; i++)
-                    free(av[i]);
-                free(av);
-                exit(127);
-            }
-            execve(cmd_path, av, envp);
-            perror("./shell");
-            free(cmd_path);
-            for (i = 0; av[i]; i++)
-                free(av[i]);
-            free(av);
-            exit(EXIT_FAILURE);
-        }
-        else
-        waitpid(child, NULL, 0);
->>>>>>> 27522cddb6512c0d2945d2e15b72e240b0b99ba4
+		execve(cmd_path, av, envp);
+		perror("./shell");
+		free(cmd_path);
+		for (i = 0; av[i]; i++)
+			free(av[i]);
+		free(av);
+		exit(EXIT_FAILURE);
+	}
+	else
+	waitpid(child, NULL, 0);
 }
