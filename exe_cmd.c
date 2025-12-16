@@ -14,6 +14,7 @@ int exe_cmd(char *line, char **envp)
 	pid_t child = fork();
 	size_t i;
 	char *cmd_path;
+
 	int status;
 
 	if (child < 0)
@@ -33,11 +34,8 @@ int exe_cmd(char *line, char **envp)
 
 		if (strcmp(av[0], "env") == 0)
 		{
-		for (i = 0; envp[i] != NULL; i++)
-		{
-		printf("%s\n", envp[i]);
-		}
-		return (0);
+		builtin_env(envp);
+		return (1);
 		}
 		cmd_path = find_in_path(av[0]);
 		if (!cmd_path)
