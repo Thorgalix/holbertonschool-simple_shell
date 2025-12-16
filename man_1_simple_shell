@@ -9,7 +9,9 @@ hsh \- simple UNIX command interpreter
 .SH DESCRIPTION
 .B hsh
 is a simple UNIX command interpreter that reads commands from
-standard input or from a file and executes them.
+standard input or from a file and executes them. It handles
+the \fIPATH\fR environment variable, allowing commands to be run
+without specifying their full path.
 
 .SH OPTIONS
 This shell does not support command-line options.
@@ -28,11 +30,18 @@ Run the shell in interactive mode:
 .B hsh
 .TP
 Run commands from a file:
-.B hsh file
+.B hsh filename
+.TP
+Run a command without specifying the full path:
+.B ls
 
 .SH RETURN VALUE
 .B hsh
 returns 0 on success and non-zero on error.
+
+.SH ENVIRONMENT
+The shell uses the \fIPATH\fR environment variable to locate
+executables.
 
 .SH AUTHORS
 Lucas Podevin, Tommy Jouhans

@@ -1,43 +1,44 @@
-Presentation du Simple Shell créer par Lucas Podevin et Tommy Jouhans:
+# Simple Shell
 
-Créé par : Lucas Podevin et Tommy Jouhans
+**Créé par :** Lucas Podevin et Tommy Jouhans
 
-Description
+---
+
+## Description
 
 L'objectif de ce projet est de créer un simple shell UNIX capable de lire des commandes depuis l’entrée standard ou depuis un fichier, et de les exécuter pour afficher le résultat sur la sortie standard.
 
-Fonctionnalités
+---
 
-Exécution de commandes simples
+## Fonctionnalités
 
-Gestion de commandes avec arguments
+- Exécution de commandes simples avec arguments
 
-Built-ins de base : exit, env
+- Gestion du PATH pour trouver les exécutables
 
-Lecture de commandes depuis un fichier (optionnel selon implémentation)
+- Built-ins de base : exit, env
 
-Compilation
+- Lecture de commandes depuis un fichier
 
-Pour compiler le shell, utilisez la commande suivante :
-
+## Compilation
+```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+```
+## Utilisation
 
-Utilisation
-
-Lancer le shell en mode interactif :
-
+- Lancer le shell en mode interactif :
+```bash
 ./hsh
-
-
-Exécuter des commandes depuis un fichier :
-
+```
+- Exécuter des commandes depuis un fichier :
+```bash
 ./hsh filename
-
-Flowchart
+```
+## Flowchart
 
 ![Flowchart du Simple Shell](assets/FlowchartSimpleShell.png)
 
-Auteurs
+## Auteurs
 
 Lucas Podevin
 
