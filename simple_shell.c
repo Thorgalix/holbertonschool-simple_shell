@@ -20,6 +20,7 @@ int main(int ac, char **av, char **envp)
 	size_t len = 0;
 	ssize_t read;
 	char *cmd;
+	int exit_status = 0;
 
 	(void)ac;
 
@@ -46,9 +47,9 @@ int main(int ac, char **av, char **envp)
 			handle_exit(av);
 		}
 
-		(void)exe_cmd(cmd, envp, line);
+		exit_status = exe_cmd(cmd, envp, line);
 	}
 
 	free(line);
-	return (0);
+	return (exit_status);
 }
