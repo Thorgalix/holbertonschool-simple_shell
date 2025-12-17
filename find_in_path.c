@@ -4,9 +4,10 @@
 * @cmd: commande à chercher*,
 * Return: chemin complet si trouvé, NULL sinon
 */
-char *find_in_path(char *cmd)
+char *find_in_path(char *cmd, char **envp)
 {
-	char *path, *copy, *token, *full;
+	char *path = NULL, *copy, *token, *full;
+	int i = 0;
 
 	if (!cmd || !*cmd)
 		return (NULL);
@@ -16,7 +17,19 @@ char *find_in_path(char *cmd)
 			return (strdup(cmd));
 		return (NULL);
 	}
-	path = getenv("PATH");
+	
+	if (envp)
+	{
+		for (i = 0; envp[i]; i++)
+		{
+			if (strncmp(envp[i], "PATH=", 5) == 0)
+			{
+				path = envp[i] + 5;
+				break;
+			}
+		}
+	}
+	
 	if (!path || !*path)
 		return (NULL);
 	copy = strdup(path);

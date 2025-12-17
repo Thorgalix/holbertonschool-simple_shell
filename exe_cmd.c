@@ -35,7 +35,7 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 		return (status);
 	}
 
-	cmd_path = find_in_path(av[0]);
+	cmd_path = find_in_path(av[0], envp);
 	if (!cmd_path)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", SHELL_NAME, 1, av[0]);
