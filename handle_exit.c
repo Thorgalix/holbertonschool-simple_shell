@@ -23,7 +23,7 @@ void handle_exit(char **av)
             if (!isdigit(arg[i]))
             {
                 fprintf(stderr, "%s: exit: %s: numeric argument required\n", SHELL_NAME, arg);
-                /* Free memory before exit */
+                /* Libère la mémoire avant de quitter */
                 for (i = 0; av[i]; i++)
                     free(av[i]);
                 free(av);
@@ -33,7 +33,7 @@ void handle_exit(char **av)
         status = atoi(av[1]);
     }
 
-    /* Free memory before exit */
+    /* Libère la mémoire avant de quitter */
     for (i = 0; av[i]; i++)
         free(av[i]);
     free(av);
