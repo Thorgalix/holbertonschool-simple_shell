@@ -27,8 +27,10 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 	}
 
 	if (strcmp(av[0], "exit") == 0)
+	{
+		free(line_buf);
 		handle_exit(av);
-
+	}
 	if (strcmp(av[0], "env") == 0)
 	{
 		status = builtin_env(envp);

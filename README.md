@@ -18,8 +18,6 @@ L'objectif de ce projet est de créer un simple shell UNIX capable de lire des c
 
 - Built-ins de base : exit, env
 
-- Lecture de commandes depuis un fichier
-
 ## Compilation
 ```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh

@@ -1,7 +1,8 @@
 #include "shell.h"
 /**
 * find_in_path - Cherche une commande dans les dossiers du PATH,
-* @cmd: commande à chercher*,
+* @cmd: commande à chercher
+* @envp: tableau des variables d'environnement du shell
 * Return: chemin complet si trouvé, NULL sinon
 */
 char *find_in_path(char *cmd, char **envp)
@@ -17,7 +18,6 @@ char *find_in_path(char *cmd, char **envp)
 			return (strdup(cmd));
 		return (NULL);
 	}
-	
 	if (envp)
 	{
 		for (i = 0; envp[i]; i++)
@@ -29,7 +29,6 @@ char *find_in_path(char *cmd, char **envp)
 			}
 		}
 	}
-	
 	if (!path || !*path)
 		return (NULL);
 	copy = strdup(path);
