@@ -26,6 +26,9 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 		return (0);
 	}
 
+	if (strcmp(av[0], "exit") == 0)
+		handle_exit(av);
+
 	if (strcmp(av[0], "env") == 0)
 	{
 		status = builtin_env(envp);

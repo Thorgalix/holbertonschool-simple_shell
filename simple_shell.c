@@ -23,13 +23,11 @@ int main(int ac, char **av, char **envp)
 	int exit_status = 0;
 
 	(void)ac;
+	(void)av;
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			printf("#usr$ ");
-
-		read = getline(&line, &len, stdin);
+		read = get_line(&line, &len);
 		if (read == -1)
 			break;
 
@@ -39,13 +37,6 @@ int main(int ac, char **av, char **envp)
 		cmd = del_space(line);
 		if (*cmd == '\0')
 			continue;
-
-		if (strncmp(cmd, "exit", 4) == 0)
-		{
-			av = split_line(cmd);
-			free(line);
-			handle_exit(av);
-		}
 
 		exit_status = exe_cmd(cmd, envp, line);
 	}

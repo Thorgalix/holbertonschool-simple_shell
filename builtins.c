@@ -1,9 +1,9 @@
 #include "shell.h"
 /**
- * builtin_env - Prints the current environment
- * @envp: array of environment variables
+ * builtin_env - affiche l'environnement actuel
+ * @envp: chaîne de variable d'environnement
  *
- * Return: 0 on success
+ * Return: 0 en cas de succès
  */
 int builtin_env(char **envp)
 {
@@ -13,7 +13,7 @@ int builtin_env(char **envp)
 	if (!envp)
 		return (0);
 
-	/* Check if SHLVL exists in environment */
+	/* Check si SHLVL existe dans l'environnement*/
 	while (envp[i])
 	{
 		if (strncmp(envp[i], "SHLVL=", 6) == 0)
@@ -22,7 +22,10 @@ int builtin_env(char **envp)
 		i++;
 	}
 
-	/* If SHLVL not found, output SHLVL=0 */
+	/**
+	* si SHLVL n'existe pas on affiche 0 pour indiquer que
+	* c'est le premier niveau de shell
+	*/
 	if (!has_shlvl)
 		printf("SHLVL=0\n");
 
