@@ -6,7 +6,7 @@
 
 ## Description
 
-L'objectif de ce projet est de créer un simple shell UNIX capable de lire des commandes depuis l’entrée standard ou depuis un fichier, et de les exécuter pour afficher le résultat sur la sortie standard.
+L'objectif de ce projet est de créer un simple shell UNIX capable de lire des commandes depuis l’entrée standard, et de les exécuter pour afficher le résultat sur la sortie standard.
 
 ---
 
