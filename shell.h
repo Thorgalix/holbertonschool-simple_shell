@@ -1,5 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
+#define SHELL_NAME "./hsh"
 
 #include <stdio.h>
 #include <stdlib.h>
