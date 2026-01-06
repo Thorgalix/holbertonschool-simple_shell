@@ -28,9 +28,27 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```bash
 ./hsh
 ```
-- Exécuter des commandes depuis un fichier :
+### Built-ins
+
+- `exit [n]` : quitte le shell avec le code `n` (0 par défaut). L’argument doit être numérique, sinon le shell retourne 2.
+- `env` : affiche toutes les variables d’environnement. Si `SHLVL` n’existe pas, affiche `SHLVL=0`.
+
+## Codes de sortie
+
+- 0 : succès
+- 127 : commande non trouvée
+- 126 : erreur d'exécution dans le processus enfant
+- 2 : argument invalide pour la builtin `exit`
+- Sinon : code de sortie de la commande exécutée
+
+### Exemples de tests
+
 ```bash
-./hsh filename
+./hsh
+#usr$ ls -l
+#usr$ env
+#usr$ exit 42
+echo $?
 ```
 ## Flowchart
 
