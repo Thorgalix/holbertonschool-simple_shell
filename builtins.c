@@ -70,3 +70,34 @@ void handle_exit(char **av)
 	free(av);
 	_exit(status);
 }
+/**
+ * builtin_help - affiche l'aide pour les built-ins
+ * @av: tableau d'arguments
+ *
+ * Return: 0 en cas de succès
+ */
+int builtin_help(char **av)
+{
+	if (!av || !av[0])
+		return (0);
+
+	if (!av[1])
+	{
+		printf("Commandes Builtins:\n");
+		printf("  exit  : Quitter le shell\n");
+		printf("  env   : Imprimer les variables d'environnement\n");
+		printf("  help  : Afficher ce message d'aide\n");
+		return (0);
+	}
+
+	if (strcmp(av[1], "exit") == 0)
+		printf("exit : Quitter le shell avec un code d'état facultatif\n");
+	else if (strcmp(av[1], "env") == 0)
+		printf("env  : Imprimer toutes les variables d'environnement\n");
+	else if (strcmp(av[1], "help") == 0)
+		printf("help : Afficher les informations sur les commandes intégrées\n");
+	else
+		printf("%s: aucune rubrique d'aide pour '%s'\n", av[0], av[1]);
+
+	return (0);
+}

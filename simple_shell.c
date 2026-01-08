@@ -29,8 +29,10 @@ int main(int ac, char **av, char **envp)
 	{
 		read = get_line(&line, &len);
 		if (read == -1)
+		{
+			printf("\n");
 			break;
-
+		}
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
 

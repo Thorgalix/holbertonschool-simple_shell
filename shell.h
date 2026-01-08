@@ -17,5 +17,6 @@ int exe_cmd(char *line, char **envp, char *line_buf);
 char *find_in_path(char *cmd, char **envp);
 void handle_exit(char **av);
 int builtin_env(char **envp);
+int builtin_help(char **av);
 
 #endif

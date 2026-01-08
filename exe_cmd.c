@@ -26,6 +26,14 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 		return (0);
 	}
 
+	if (strcmp(av[0], "help") == 0)
+	{
+		status = builtin_help(av);
+    	for (i = 0; av[i]; i++)
+        	free(av[i]);
+    	free(av);
+    	return (status);
+	}
 	if (strcmp(av[0], "exit") == 0)
 	{
 		free(line_buf);
