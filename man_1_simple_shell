@@ -23,6 +23,9 @@ Exit the shell with code n (0 by default). Numeric argument required.
 .TP
 .B env
 Print all environment variables. If SHLVL is not set, prints SHLVL=0.
+.TP
+.B help
+Display information about builtins.
 
 .SH EXAMPLES
 .TP
