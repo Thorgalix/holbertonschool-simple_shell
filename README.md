@@ -16,7 +16,7 @@ L'objectif de ce projet est de créer un simple shell UNIX capable de lire des c
 
 - Gestion du PATH pour trouver les exécutables
 
-- Built-ins de base : exit, env
+- Built-ins de base : exit, env, help
 
 ## Compilation
 ```bash
@@ -32,6 +32,7 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 - `exit [n]` : quitte le shell avec le code `n` (0 par défaut). L’argument doit être numérique, sinon le shell retourne 2.
 - `env` : affiche toutes les variables d’environnement. Si `SHLVL` n’existe pas, affiche `SHLVL=0`.
+- `help`: afficher les informations relatives aux commandes intégrées. Renvoie une valeur de succès sauf si le modèle est introuvable.
 
 ## Codes de sortie
 
@@ -46,6 +47,7 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```bash
 ./hsh
 #usr$ ls -l
+#usr$ help env
 #usr$ env
 #usr$ exit 42
 echo $?
